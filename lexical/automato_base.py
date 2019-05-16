@@ -77,7 +77,14 @@ class AutomatoBase:
                 return False
 
             if tok_position == len_token - 1:
-                if actual_state.final and tok in (set(actual_state.transicao + actual_state.repeticoes)):
+                if actual_state.final and (actual_state.transicao != []):
+                    if tok in actual_state.transicao:
+                        return True
+                    elif actual_state.final and tok in actual_state.repeticoes:
+                        return True
+                    else:
+                        return False
+                elif actual_state.final and tok in actual_state.repeticoes:
                     return True
                 else:
                     return False

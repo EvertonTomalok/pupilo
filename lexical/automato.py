@@ -1,5 +1,6 @@
-from automato_base import AutomatoBase
 from string import ascii_letters, ascii_lowercase
+
+from automato_base import AutomatoBase
 
 
 class SE(AutomatoBase):
@@ -170,7 +171,7 @@ class INTEIRO(AutomatoBase):
     def __init__(self):
         super().__init__("INTEIRO")
 
-        self.insert_alphabet([str(n) for n in range(0, 10)] + ["-"])
+        self.insert_alphabet([str(n) for n in range(0, 10)])
         self.insert_starting_state([], [str(n) for n in range(0, 10)], final=True)
         self.insert_new_state([str(n) for n in range(0, 10)], [], final=True)
 
@@ -278,9 +279,10 @@ class VARIAVEL(AutomatoBase):
     def __init__(self):
         super().__init__("VARIAVEL")
 
-        self.insert_alphabet(list(ascii_letters) + [str(n) for n in range(0, 10)])
-        self.insert_starting_state([], list(ascii_lowercase), final=True)
-        self.insert_new_state(list(ascii_letters) + [str(n) for n in range(0, 10)], [], final=True)
+        self.insert_alphabet(list(ascii_letters) + [str(n) for n in range(0, 10)] + ["<", ">"])
+        self.insert_starting_state([], ["<"])
+        self.insert_new_state([], list(ascii_lowercase))
+        self.insert_new_state(list(ascii_letters) + [str(n) for n in range(0, 10)], [">"], final=True)
 
 
 def get_all_classes():
