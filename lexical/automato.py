@@ -336,7 +336,6 @@ if __name__ == '__main__':
     from sys import argv
     from collections import OrderedDict
 
-
     parser = argparse.ArgumentParser(description='Verificar se um automato processa o token por linha de comando')
 
     parser.add_argument('-a', '--automato', action="store", dest="automato", help="Nome do automato. Ex: INTEIRO")
@@ -379,8 +378,6 @@ if __name__ == '__main__':
         token = parser.parse_args().token
         listagem = parser.parse_args().listagem
         token_para_veriricar = parser.parse_args().verificar
-
-        print(parser.parse_args())
 
         if automato or token:
             if (automato and not token) or (not automato and token):
