@@ -1,7 +1,13 @@
 from collections import OrderedDict
 from string import ascii_letters, ascii_lowercase, punctuation, whitespace
 
-from errors import LexicalError
+try:
+    from errors import LexicalError
+except ModuleNotFoundError:
+    import sys, os
+
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from errors import LexicalError
 
 try:
     from lexical.automato_base import AutomatoBase
@@ -196,13 +202,27 @@ class OPMULT(AutomatoBase):
         self.insert_starting_state([], ["*"], final=True)
 
 
-class INTEIRO(AutomatoBase):
+class TIPOINT(AutomatoBase):
     def __init__(self):
-        super().__init__("INTEIRO")
+        super().__init__("TIPOINT")
 
         self.insert_alphabet([str(n) for n in range(0, 10)])
         self.insert_starting_state([], [str(n) for n in range(0, 10)], final=True)
         self.insert_new_state([str(n) for n in range(0, 10)], [], final=True)
+
+
+class INTEIRO(AutomatoBase):
+    def __init__(self):
+        super().__init__("INTEIRO")
+
+        self.insert_alphabet(["I", "N", "T", "E", "R", "O"])
+        self.insert_starting_state([], ["I"])
+        self.insert_new_state([], ["N"])
+        self.insert_new_state([], ["T"])
+        self.insert_new_state([], ["E"])
+        self.insert_new_state([], ["I"])
+        self.insert_new_state([], ["R"])
+        self.insert_new_state([], ["O"], final=True)
 
 
 class ATRIB(AutomatoBase):
@@ -318,7 +338,7 @@ class VARIAVEL(AutomatoBase):
         super().__init__("VARIAVEL")
 
         self.insert_alphabet(list(ascii_letters) + [str(n) for n in range(0, 10)])
-        self.insert_starting_state([], list(ascii_lowercase))
+        self.insert_starting_state([], list(ascii_lowercase), final=True)
         self.insert_new_state(list(ascii_letters) + [str(n) for n in range(0, 10)], [], final=True)
 
 
@@ -344,6 +364,7 @@ def get_all_classes():
         "SENÃO": SENÃO,
         "SE": SE,
         "OPMENOS": OPMENOS,
+        "TIPOINT": TIPOINT,
         "INTEIRO": INTEIRO,
         "OPMAIS": OPMAIS,
         "ATRIB": ATRIB,

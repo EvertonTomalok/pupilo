@@ -23,12 +23,16 @@ def main():
         pup_file = get_pup_file(file)
         output_file = get_obj(sys.argv[2])
 
+    out_string = ""
+
     line_index = 1
     for line in pup_file.split("\n"):
 
         for token in extract_tokens(line):
             try:
-                print(token, " -> ", token_verify(token))
+                identifier = token_verify(token)
+                print(token, " -> ", identifier)
+                out_string += identifier
             except LexicalError:
                 start_char = line.find(token)
                 if start_char > 0:
@@ -40,10 +44,13 @@ def main():
                 print(f"\n\nError line: {line_index}, char: {start_char}")
                 print(line)
                 print(error_tracer)
-                print("Error INFO: ", str(LexicalError()))
+                print("Error INFO: ", str(LexicalError()), f" ->  \033[1;34m{token}\033[m")
 
                 sys.exit(1)
+        out_string += "\n"
         line_index += 1
+    with open(output_file, "w") as fp:
+        fp.write(out_string.replace("<ESPACO>", " "))
 
 
 def get_pup_file(file):

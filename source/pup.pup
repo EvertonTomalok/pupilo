@@ -1,5 +1,12 @@
 INICIO
-    ESCREVA ("QUALQUER COISA 1234 5 6 666")
-    var := 1234
-    literal := "asbecece";
+    ESCREVA ("QUALQUER COISA 1234 5 6 666").
+    var := 1234.
+    literal := "asbecece".
+
+    if var > 1
+        ESCREVA("MAIOR").
+
+    PARA INTEIRO i:=0 ATÉ 10 PASSO 2
+        ESCREVA(i*i).
+    FIMPARA.
 FIM.
