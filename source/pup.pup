@@ -1,9 +1,10 @@
 INICIO
     ESCREVA ("QUALQUER COISA 1234 5 6 666").
-    var := 1234.
+    var := LEIA().
+    var2 := 12.
     literal := "Variavel do tipo literal".
 
-    SE var > 1 ENTÃO
+    SE var > var2 ENTÃO
         ESCREVA("MAIOR").
     SENÃO
         ESCREVA("menor").
