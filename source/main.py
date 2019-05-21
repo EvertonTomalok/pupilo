@@ -1,11 +1,12 @@
-import sys
 import os
+import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(os.getcwd())
 
 
 from errors import *
+from lexical.automato import token_verify
 
 
 def main():
@@ -21,8 +22,9 @@ def main():
         pup_file = get_pup_file(file)
         output_file = get_obj(sys.argv[2])
 
-    print(pup_file)
-    print(output_file)
+    for line in pup_file.split("\n"):
+        for token in line.split():
+            print(token, " -> ", token_verify(token))
 
 
 def get_pup_file(file):

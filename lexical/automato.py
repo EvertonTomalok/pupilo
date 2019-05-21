@@ -1,6 +1,9 @@
-from string import ascii_letters, ascii_lowercase
+from string import ascii_letters, ascii_lowercase, punctuation, whitespace
 
-from automato_base import AutomatoBase
+try:
+    from lexical.automato_base import AutomatoBase
+except ModuleNotFoundError:
+    from automato_base import AutomatoBase
 
 
 class SE(AutomatoBase):
@@ -110,6 +113,29 @@ class FIMPARA(AutomatoBase):
         self.insert_new_state([], ["A"], final=True)
 
 
+class INICIO(AutomatoBase):
+    def __init__(self):
+        super().__init__("INICIO")
+
+        self.insert_alphabet(["I", "N", "C", "O"])
+        self.insert_starting_state([], ["I"])
+        self.insert_new_state([], ["N"])
+        self.insert_new_state([], ["I"])
+        self.insert_new_state([], ["C"])
+        self.insert_new_state([], ["I"])
+        self.insert_new_state([], ["O"], final=True)
+
+
+class FIM(AutomatoBase):
+    def __init__(self):
+        super().__init__("FIM")
+
+        self.insert_alphabet(["F", "I", "M"])
+        self.insert_starting_state([], ["F"])
+        self.insert_new_state([], ["I"])
+        self.insert_new_state([], ["M"], final=True)
+
+
 class ESCREVA(AutomatoBase):
     def __init__(self):
         super().__init__("ESCREVA")
@@ -174,6 +200,15 @@ class INTEIRO(AutomatoBase):
         self.insert_alphabet([str(n) for n in range(0, 10)])
         self.insert_starting_state([], [str(n) for n in range(0, 10)], final=True)
         self.insert_new_state([str(n) for n in range(0, 10)], [], final=True)
+
+
+class ATRIB(AutomatoBase):
+    def __init__(self):
+        super().__init__("ATRIB")
+
+        self.insert_alphabet([":", "="])
+        self.insert_starting_state([], [":"])
+        self.insert_new_state([], ["="], final=True)
 
 
 class PARENA(AutomatoBase):
@@ -279,10 +314,27 @@ class VARIAVEL(AutomatoBase):
     def __init__(self):
         super().__init__("VARIAVEL")
 
-        self.insert_alphabet(list(ascii_letters) + [str(n) for n in range(0, 10)] + ["<", ">"])
-        self.insert_starting_state([], ["<"])
-        self.insert_new_state([], list(ascii_lowercase))
-        self.insert_new_state(list(ascii_letters) + [str(n) for n in range(0, 10)], [">"], final=True)
+        self.insert_alphabet(list(ascii_letters) + [str(n) for n in range(0, 10)])
+        self.insert_starting_state([], list(ascii_lowercase))
+        self.insert_new_state(list(ascii_letters) + [str(n) for n in range(0, 10)], [], final=True)
+
+
+class LITERAL(AutomatoBase):
+    def __init__(self):
+        super().__init__("LITERAL")
+        alphabet = list(ascii_letters) + [str(n) for n in range(0, 10)] + list(punctuation) + list(whitespace)
+        self.insert_alphabet(alphabet)
+        alphabet.remove('"')
+        self.insert_starting_state([], ['"'])
+        self.insert_new_state(alphabet, ['"'], final=True)
+
+
+class ESPACO(AutomatoBase):
+    def __init__(self):
+        super().__init__("ESPACO")
+        self.insert_alphabet(list(whitespace))
+        self.insert_starting_state([], ['"'])
+        self.insert_new_state(list(whitespace), [], final=True)
 
 
 def get_all_classes():
@@ -292,6 +344,7 @@ def get_all_classes():
         "OPMENOS": OPMENOS,
         "INTEIRO": INTEIRO,
         "OPMAIS": OPMAIS,
+        "ATRIB": ATRIB,
         "ENTÃO": ENTÃO,
         "FIMSE": FIMSE,
         "ENQUANTO": ENQUANTO,
@@ -316,7 +369,20 @@ def get_all_classes():
         "RELDIFF": RELDIFF,
         "PF": PF,
         "VARIAVEL": VARIAVEL,
+        "LITERAL": LITERAL,
+        "INICIO": INICIO,
+        "FIM": FIM,
+        "ESPACO": ESPACO,
     }
+
+
+def token_verify(token):
+    allclasses = OrderedDict(get_all_classes())
+    for class_name, class_ in allclasses.items():
+        if class_().scan_token(token):
+            return class_name
+    else:
+        return None
 
 
 def run_automato_with_argv(name, token):
@@ -401,4 +467,3 @@ if __name__ == '__main__':
                     break
             else:
                 print(token_para_veriricar, " -> \033[1;31mNão foi reconhecido\33[m")
-
