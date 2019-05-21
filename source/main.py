@@ -31,8 +31,7 @@ def main():
         for token in extract_tokens(line):
             try:
                 identifier = token_verify(token)
-                print(token, " -> ", identifier)
-                out_string += identifier
+                out_string += identifier + " "
             except LexicalError:
                 start_char = line.find(token)
                 if start_char > 0:
@@ -46,11 +45,19 @@ def main():
                 print(error_tracer)
                 print("Error INFO: ", str(LexicalError()), f" ->  \033[1;34m{token}\033[m")
 
-                sys.exit(1)
+                with open(output_file, "w") as fp:
+                    error_simple = " " * start_char
+                    error_simple += "^"
+                    err = f"{line}\n{error_simple}\n\nError line: {line_index}, char: {start_char + 1}"
+                    fp.write(err)
+                    sys.exit(1)
+
         out_string += "\n"
         line_index += 1
     with open(output_file, "w") as fp:
         fp.write(out_string.replace("<ESPACO>", " "))
+
+    print(out_string.replace("<ESPACO>", " "))
 
 
 def get_pup_file(file):
