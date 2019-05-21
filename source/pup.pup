@@ -1,10 +1,12 @@
 INICIO
     ESCREVA ("QUALQUER COISA 1234 5 6 666").
     var := 1234.
-    literal := "asbecece".
+    literal := "Variavel do tipo literal".
 
-    if var > 1
+    SE var > 1 ENTÃO
         ESCREVA("MAIOR").
+    SENÃO
+        ESCREVA("menor").
 
     PARA INTEIRO i:=0 ATÉ 10 PASSO 2
         ESCREVA(i*i).
