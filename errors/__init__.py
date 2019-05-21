@@ -61,3 +61,14 @@ class ItemNotInAlphabet(Exception):
         # Calling itself to raise custom error
         raise ItemNotInAlphabet(self.item)
 
+
+class LexicalError(Exception):
+    def __init__(self):
+        self.message = (
+            f"\033[1;31mSymbol not found in token table.\033[m"
+        )
+        super().__init__(self.message)
+
+    def __call__(self, *args, **kwargs):
+        # Calling itself to raise custom error
+        raise LexicalError()

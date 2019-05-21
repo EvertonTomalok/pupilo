@@ -1,4 +1,7 @@
+from collections import OrderedDict
 from string import ascii_letters, ascii_lowercase, punctuation, whitespace
+
+from errors import LexicalError
 
 try:
     from lexical.automato_base import AutomatoBase
@@ -331,10 +334,9 @@ class LITERAL(AutomatoBase):
 
 class ESPACO(AutomatoBase):
     def __init__(self):
-        super().__init__("ESPACO")
+        super().__init__("<ESPACO>")
         self.insert_alphabet(list(whitespace))
-        self.insert_starting_state([], ['"'])
-        self.insert_new_state(list(whitespace), [], final=True)
+        self.insert_starting_state([], [' '], final=True)
 
 
 def get_all_classes():
@@ -380,9 +382,9 @@ def token_verify(token):
     allclasses = OrderedDict(get_all_classes())
     for class_name, class_ in allclasses.items():
         if class_().scan_token(token):
-            return class_name
+            return class_().name
     else:
-        return None
+        raise LexicalError()
 
 
 def run_automato_with_argv(name, token):
@@ -402,7 +404,6 @@ def run_automato_with_argv(name, token):
 if __name__ == '__main__':
     import argparse
     from sys import argv
-    from collections import OrderedDict
 
     parser = argparse.ArgumentParser(description='Verificar se um automato processa o token por linha de comando')
 

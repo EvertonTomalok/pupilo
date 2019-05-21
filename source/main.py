@@ -7,6 +7,7 @@ sys.path.append(os.getcwd())
 
 from errors import *
 from lexical.automato import token_verify
+from util.regular_expression import extract_tokens
 
 
 def main():
@@ -22,9 +23,27 @@ def main():
         pup_file = get_pup_file(file)
         output_file = get_obj(sys.argv[2])
 
+    line_index = 1
     for line in pup_file.split("\n"):
-        for token in line.split():
-            print(token, " -> ", token_verify(token))
+
+        for token in extract_tokens(line):
+            try:
+                print(token, " -> ", token_verify(token))
+            except LexicalError:
+                start_char = line.find(token)
+                if start_char > 0:
+                    error_tracer = " " * start_char
+                    error_tracer += "\033[1;31m^\033[m"
+                else:
+                    error_tracer = "^"
+
+                print(f"\n\nError line: {line_index}, char: {start_char}")
+                print(line)
+                print(error_tracer)
+                print("Error INFO: ", str(LexicalError()))
+
+                sys.exit(1)
+        line_index += 1
 
 
 def get_pup_file(file):
