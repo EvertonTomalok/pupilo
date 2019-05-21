@@ -31,7 +31,7 @@ def main():
         for token in extract_tokens(line):
             try:
                 identifier = token_verify(token)
-                out_string += identifier + " "
+                out_string += identifier + " " if identifier != "<ESPACO>" else identifier
             except LexicalError:
                 start_char = line.find(token)
                 if start_char > 0:
