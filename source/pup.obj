@@ -1,15 +1,6 @@
-INICIO 
-    ESCREVA  PARENA LITERAL PARENF PF 
-    VARIAVEL  ATRIB  LEIA PARENA PARENF PF 
-    VARIAVEL  ATRIB  TIPOINT PF 
-    VARIAVEL  ATRIB  LITERAL PF 
+    literal := "Variavel do tipo literal". ++
+                                           ^
 
-    SE  VARIAVEL  RELMAIOR  VARIAVEL  ENTÃO 
-        ESCREVA PARENA LITERAL PARENF PF 
-    SENÃO 
-        ESCREVA PARENA LITERAL PARENF PF 
+Error line: 5, char: 44
 
-    PARA  INTEIRO  VARIAVEL ATRIB TIPOINT  ATÉ  TIPOINT  PASSO  TIPOINT 
-        ESCREVA PARENA VARIAVEL OPMULT VARIAVEL PARENF PF 
-    FIMPARA PF 
-FIM PF 
+Error INFO: Symbol not found in token table. ->  ++

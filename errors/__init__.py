@@ -65,7 +65,7 @@ class ItemNotInAlphabet(Exception):
 class LexicalError(Exception):
     def __init__(self):
         self.message = (
-            f"\033[1;31mSymbol not found in token table.\033[m"
+            f"Symbol not found in token table."
         )
         super().__init__(self.message)
 

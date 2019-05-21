@@ -43,12 +43,13 @@ def main():
                 print(f"\n\nError line: {line_index}, char: {start_char}")
                 print(line)
                 print(error_tracer)
-                print("Error INFO: ", str(LexicalError()), f" ->  \033[1;34m{token}\033[m")
+                print("Error INFO: \033[1;31m", str(LexicalError()), f"\033[m ->  \033[1;34m{token}\033[m")
 
                 with open(output_file, "w") as fp:
                     error_simple = " " * start_char
                     error_simple += "^"
                     err = f"{line}\n{error_simple}\n\nError line: {line_index}, char: {start_char + 1}"
+                    err += "\n\nError INFO: " + str(LexicalError()) + f" ->  {token}"
                     fp.write(err)
                     sys.exit(1)
 
