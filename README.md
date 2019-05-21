@@ -1,2 +1,2 @@
 # pupilo
-Automato
+Interpretador/COMPILADOR Automato
